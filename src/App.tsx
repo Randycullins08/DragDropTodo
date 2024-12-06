@@ -1,15 +1,56 @@
-import TaskColumn from "./components/TaskColumn";
+import { useState } from "react";
+import { Task, Column as ColumnType } from "./types";
+import { Column } from "./components/Column";
+
+const COLUMNS: ColumnType[] = [
+  {
+    id: "TODO",
+    title: "To Do",
+  },
+  { id: "IN_PROGRESS", title: "In Progress" },
+  { id: "DONE", title: "Done" },
+];
+
+const INITIAL_TASKS: Task[] = [
+  {
+    id: "1",
+    title: "Research Project",
+    description: "Gather requirements and create initial documentation",
+    status: "TODO",
+  },
+  {
+    id: "2",
+    title: "Design System",
+    description: "Create component library and design tokens",
+    status: "TODO",
+  },
+  {
+    id: "3",
+    title: "API Integration",
+    description: "Implement REST API endpoints",
+    status: "IN_PROGRESS",
+  },
+  {
+    id: "4",
+    title: "Testing",
+    description: "Write unit tests for core functionality",
+    status: "DONE",
+  },
+];
 
 function App() {
+  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold text-center mb-6">
-        Drag And Drop Application
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <TaskColumn title="Todo" />
-        <TaskColumn title="In Progress" />
-        <TaskColumn title="Completed" />
+    <div className="p-4">
+      <div className="flex gap-8">
+        {COLUMNS.map((column) => (
+          <Column
+            key={column.id}
+            column={column}
+            tasks={tasks.filter((task) => task.status === column.id)}
+          />
+        ))}
       </div>
     </div>
   );
