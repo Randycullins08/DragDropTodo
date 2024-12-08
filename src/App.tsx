@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Task, Column as ColumnType } from "./types";
-import { Column } from "./components/Column";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+
+import type { Task, Column as ColumnType } from "./types";
+import Column from "./components/Column";
 
 const COLUMNS: ColumnType[] = [
-  {
-    id: "TODO",
-    title: "To Do",
-  },
+  { id: "TODO", title: "To Do" },
   { id: "IN_PROGRESS", title: "In Progress" },
   { id: "DONE", title: "Done" },
 ];
@@ -38,22 +37,44 @@ const INITIAL_TASKS: Task[] = [
   },
 ];
 
-function App() {
+export default function App() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
 
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    const taskId = active.id as string;
+    const newStatus = over.id as Task["status"];
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              status: newStatus,
+            }
+          : task
+      )
+    );
+  }
+
   return (
-    <div className="p-4">
+    <div className="min-h-screen flex justify-center items-center bg-grayscale-900 p-4 text-white">
       <div className="flex gap-8">
-        {COLUMNS.map((column) => (
-          <Column
-            key={column.id}
-            column={column}
-            tasks={tasks.filter((task) => task.status === column.id)}
-          />
-        ))}
+        <DndContext onDragEnd={handleDragEnd}>
+          {COLUMNS.map((column) => {
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasks.filter((task) => task.status === column.id)}
+              />
+            );
+          })}
+        </DndContext>
       </div>
     </div>
   );
 }
-
-export default App;
