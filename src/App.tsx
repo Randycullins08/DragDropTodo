@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import type { Task, Column as ColumnType } from "./types";
+import type { Task, Column as ColumnType, TaskStatus } from "./types";
 import Column from "./components/Column";
 
 const COLUMNS: ColumnType[] = [
@@ -38,7 +38,13 @@ const INITIAL_TASKS: Task[] = [
 ];
 
 export default function App() {
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [tasksByStatus, setTasksByStatus] = useState<
+    Record<TaskStatus, Task[]>
+  >({
+    TODO: INITIAL_TASKS.filter((task) => task.status === "TODO"),
+    IN_PROGRESS: INITIAL_TASKS.filter((task) => task.status === "IN_PROGRESS"),
+    DONE: INITIAL_TASKS.filter((task) => task.status === "DONE"),
+  });
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -48,16 +54,33 @@ export default function App() {
     const taskId = active.id as string;
     const newStatus = over.id as Task["status"];
 
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId
-          ? {
-              ...task,
-              status: newStatus,
-            }
-          : task
-      )
-    );
+    setTasksByStatus((prev) => {
+      // Find the current status of the task
+      const currentStatus = (Object.keys(prev) as TaskStatus[]).find((status) =>
+        prev[status].some((task) => task.id === taskId)
+      );
+
+      // If the task is already in the target status or status not found, return previous state
+      if (!currentStatus || currentStatus === newStatus) {
+        return prev;
+      }
+
+      // Extract the task to be moved
+      const taskToMove = prev[currentStatus].find((task) => task.id === taskId);
+
+      if (!taskToMove) {
+        return prev; // Fallback safety check
+      }
+
+      // Create the updated state
+      return {
+        ...prev,
+        [currentStatus]: prev[currentStatus].filter(
+          (task) => task.id !== taskId
+        ), // Remove task from old status
+        [newStatus]: [...prev[newStatus], { ...taskToMove, status: newStatus }], // Add task to new status
+      };
+    });
   }
 
   return (
@@ -69,7 +92,7 @@ export default function App() {
               <Column
                 key={column.id}
                 column={column}
-                tasks={tasks.filter((task) => task.status === column.id)}
+                tasks={tasksByStatus[column.id]}
               />
             );
           })}
