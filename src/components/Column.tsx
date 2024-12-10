@@ -1,24 +1,33 @@
 import { useDroppable } from "@dnd-kit/core";
-import { Column as ColumnType, Task } from "../types";
+
+import { Task, TaskStatus } from "../types";
 import TaskCard from "./TaskCard";
 
 type ColumnProps = {
-  column: ColumnType;
+  type: TaskStatus;
   tasks: Task[];
 };
 
-export default function Column({ column, tasks }: ColumnProps) {
+const COLUMN_TITLES: Record<TaskStatus, string> = {
+  TODO: "To Do",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+};
+
+export default function Column({ type, tasks }: ColumnProps) {
   const { setNodeRef } = useDroppable({
-    id: column.id,
+    id: type,
   });
+
+  const filteredTasks = tasks.filter((task) => task.status === type);
 
   return (
     <div className="flex w-80 flex-col rounded-lg bg-grayscale-800 p-4">
       <h2 className="mb-4 text-xl font-semibold text-primary-500">
-        {column.title}
+        {COLUMN_TITLES[type]}
       </h2>
       <div ref={setNodeRef} className="flex flex-1 flex-col gap-4">
-        {tasks.map((task) => {
+        {filteredTasks.map((task) => {
           return <TaskCard key={task.id} task={task} />;
         })}
       </div>
