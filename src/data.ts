@@ -1,4 +1,4 @@
-import { Task } from "./types";
+import { Task, TaskStatus } from "./types";
 
 export const INITIAL_TASKS: Task[] = [
   {
@@ -26,3 +26,9 @@ export const INITIAL_TASKS: Task[] = [
     status: "DONE",
   },
 ];
+
+export const COLUMN_TITLES: Record<TaskStatus, string> = {
+  TODO: "To Do",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+};

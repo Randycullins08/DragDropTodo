@@ -2,16 +2,11 @@ import { useDroppable } from "@dnd-kit/core";
 
 import { Task, TaskStatus } from "../types";
 import TaskCard from "./TaskCard";
+import { COLUMN_TITLES } from "../data";
 
 type ColumnProps = {
   type: TaskStatus;
   tasks: Task[];
-};
-
-const COLUMN_TITLES: Record<TaskStatus, string> = {
-  TODO: "To Do",
-  IN_PROGRESS: "In Progress",
-  DONE: "Done",
 };
 
 export default function Column({ type, tasks }: ColumnProps) {
