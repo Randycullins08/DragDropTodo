@@ -1,13 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
 
-import { Task, TaskStatus } from "../types";
+import { ColumnProps } from "../types";
 import TaskCard from "./TaskCard";
 import { COLUMN_TITLES } from "../data";
-
-type ColumnProps = {
-  type: TaskStatus;
-  tasks: Task[];
-};
 
 export default function Column({ type, tasks }: ColumnProps) {
   const { setNodeRef } = useDroppable({

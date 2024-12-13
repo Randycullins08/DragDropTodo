@@ -11,3 +11,12 @@ export type Column = {
   id: TaskStatus;
   title: string;
 };
+
+export type ColumnProps = {
+  type: TaskStatus;
+  tasks: Task[];
+};
+
+export type TaskCardProps = {
+  task: Task;
+};

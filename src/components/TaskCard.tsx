@@ -1,9 +1,5 @@
 import { useDraggable } from "@dnd-kit/core";
-import { Task } from "../types";
-
-type TaskCardProps = {
-  task: Task;
-};
+import { TaskCardProps } from "../types";
 
 export default function TaskCard({ task }: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
