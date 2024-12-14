@@ -30,6 +30,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-grayscale-900 p-4 text-white">
+      <input placeholder="Enter Task" />
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex gap-8">
           <Column type="TODO" tasks={tasks} />
