@@ -7,6 +7,7 @@ import Column from "./components/Column";
 
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [input, setInput] = useState("");
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
@@ -30,7 +31,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-grayscale-900 p-4 text-white">
-      <input placeholder="Enter Task" />
+      <input
+        placeholder="Enter Task"
+        onChange={(e) => setInput(e.target.value)}
+      />
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex gap-8">
           <Column type="TODO" tasks={tasks} />
