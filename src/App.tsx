@@ -7,7 +7,19 @@ import Column from "./components/Column";
 
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState({
+    title: "",
+    description: "",
+  });
+
+  function handleChange(e: any) {
+    const { name, value } = e.target;
+
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
 
   function onSubmit(e: any) {
     e.preventDefault();
@@ -15,13 +27,15 @@ export default function App() {
     const newTask: Task = {
       id: "5",
       status: "TODO",
-      title: input,
-      description: input,
+      title: input.title,
+      description: input.description,
     };
 
-    console.log(newTask);
-
     setTasks((prev) => [...prev, newTask]);
+    setInput({
+      title: "",
+      description: "",
+    });
   }
 
   function handleDragEnd(event: DragEndEvent) {
@@ -46,15 +60,25 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-grayscale-900 p-4 text-white">
-      <div className="input-wrapper">
+      <form onSubmit={onSubmit}>
         <input
-          placeholder="Enter Task"
-          value={input}
           type="text"
-          onChange={(e) => setInput(e.target.value)}
+          name="title"
+          placeholder="Title"
+          value={input.title}
+          onChange={handleChange}
         />
-        <button onClick={(e) => onSubmit(e)}>Submit Task</button>
-      </div>
+
+        <input
+          type="text"
+          name="description"
+          placeholder="Description"
+          value={input.description}
+          onChange={handleChange}
+        />
+        <button>Submit Task</button>
+      </form>
+
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex gap-8">
           <Column type="TODO" tasks={tasks} />
