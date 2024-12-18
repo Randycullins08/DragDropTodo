@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
 
 export type Task = {
@@ -20,3 +22,11 @@ export type ColumnProps = {
 export type TaskCardProps = {
   task: Task;
 };
+
+export type TaskFormProps = {
+  handleAddTask: (title: string, description: string) => void;
+};
+
+export interface FormProps extends React.HTMLProps<HTMLFormElement> {
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
