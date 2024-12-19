@@ -29,24 +29,31 @@ export default function TaskForm({ handleAddTask }: TaskFormProps) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        name="title"
-        placeholder="Title"
-        value={input.title}
-        required
-        onChange={handleChange}
-      />
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col items-center justify-center gap-4 w-full max-w-wd"
+    >
+      <div className="flex gap-4 w-full justify-center items-center">
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          value={input.title}
+          required
+          onChange={handleChange}
+          className="w-1/4"
+        />
 
-      <input
-        type="text"
-        name="description"
-        placeholder="Description"
-        value={input.description}
-        required
-        onChange={handleChange}
-      />
+        <input
+          type="text"
+          name="description"
+          placeholder="Description"
+          value={input.description}
+          required
+          onChange={handleChange}
+          className="w-1/4"
+        />
+      </div>
       <button>Submit Task</button>
     </form>
   );
