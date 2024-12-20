@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { v4 } from "uuid";
 
 import TaskForm from "./components/TaskForm";
 import Column from "./components/Column";
@@ -11,8 +12,10 @@ export default function App() {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
 
   function handleAddTask(title: string, description: string) {
+    const newId = v4();
+
     const newTask: Task = {
-      id: "5",
+      id: newId,
       status: "TODO",
       title,
       description,
