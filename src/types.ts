@@ -1,3 +1,4 @@
+import { DragEndEvent } from "@dnd-kit/core";
 import { FormEvent } from "react";
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "DONE";
@@ -29,4 +30,10 @@ export type TaskFormProps = {
 
 export interface FormProps extends React.HTMLProps<HTMLFormElement> {
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}
+
+export interface UseHandleFunctions {
+  tasks: Task[];
+  handleAddTask: (title: string, description: string) => void;
+  handleDragEnd: (event: DragEndEvent) => void;
 }

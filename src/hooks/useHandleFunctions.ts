@@ -1,14 +1,9 @@
 import { DragEndEvent } from "@dnd-kit/core";
-import { Task } from "../types";
 import { useState } from "react";
 import { v4 } from "uuid";
-import { INITIAL_TASKS } from "../data";
 
-interface UseHandleFunctions {
-  tasks: Task[];
-  handleAddTask: (title: string, description: string) => void;
-  handleDragEnd: (event: DragEndEvent) => void;
-}
+import { INITIAL_TASKS } from "../data";
+import { Task, UseHandleFunctions } from "../types";
 
 export const useHandleFunctions = (): UseHandleFunctions => {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
