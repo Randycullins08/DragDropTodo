@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-grayscale-800 p-4 font-manrope text-white;
+  @apply bg-grayscale-800 font-manrope text-white;
 }
 
 button {
