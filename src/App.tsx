@@ -9,7 +9,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col justify-start items-center bg-grayscale-900 p-4 text-white">
-      <h1 className="m-4 items-center">Drag And Drop TODO</h1>
+      <h1 className="m-4 text-xl font-semibold text-primary-500 items-center">
+        Drag And Drop
+      </h1>
       <TaskForm handleAddTask={handleAddTask} />
 
       <DndContext onDragEnd={handleDragEnd}>
